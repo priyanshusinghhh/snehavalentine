@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Valentine Sneha</title>
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#ffe6f0;
+  text-align:center;
+  overflow:hidden;
+}
+
+.page{display:none;padding-top:80px}
+.active{display:block}
+
+button{
+  padding:15px 25px;
+  font-size:20px;
+  border:none;
+  border-radius:10px;
+  background:#ff66a3;
+  color:white;
+  cursor:pointer;
+  margin:10px;
+  transition:0.3s;
+}
+
+#noBtn{position:absolute}
+
+.big-warning{
+  font-size:28px;
+  color:#ff0066;
+  font-weight:bold;
+  margin-top:20px;
+}
+
+.envelope{
+  display:inline-block;
+  width:120px;
+  height:80px;
+  background:#ff99cc;
+  margin:20px;
+  line-height:80px;
+  font-weight:bold;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.heart{
+  position:fixed;
+  top:-20px;
+  color:#ff4da6;
+  animation:fall 4s linear infinite;
+}
+
+@keyframes fall{
+  to{transform:translateY(100vh)}
+}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<div id="p1" class="page active">
+<h1>Will you be my valentine Sneha? 💖</h1>
+<button onclick="yes()">YES</button>
+<button id="noBtn" onmouseover="run()">NO</button>
+<div id="warn" class="big-warning"></div>
+</div>
+
+<!-- PAGE 2 -->
+<div id="p2" class="page">
+<h1>YAAYYYYY 💕🎉</h1>
+<div id="meter">Love meter loading...</div>
+<br>
+<button onclick="next(3)">Next ➜</button>
+</div>
+
+<!-- PAGE 3 -->
+<div id="p3" class="page">
+<h2>Open for a surprise 💌</h2>
+<div class="envelope" onclick="openEnv(1)">💌</div>
+<div class="envelope" onclick="openEnv(2)">💌</div>
+<div class="envelope" onclick="openEnv(3)">💌</div>
+<div id="envText"></div>
+</div>
+
+<!-- PAGE 4 -->
+<div id="p4" class="page">
+<h2>One last envelope 👀</h2>
+<div class="envelope" onclick="finalEnv()">💌</div>
+<div id="finalText"></div>
+</div>
+
+<script>
+let noCount=0;
+let opened=[false,false,false];
+
+function run(){
+  let btn=document.getElementById("noBtn");
+  btn.style.left=Math.random()*80+"%";
+  btn.style.top=Math.random()*70+"%";
+  noCount++;
+  if(noCount>3){
+    document.getElementById("warn").innerText=
+    "no karne ka sochio bhi mat";
+  }
+}
+
+function yes(){
+  next(2);
+  hearts();
+  meter();
+}
+
+function next(n){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById("p"+n).classList.add("active");
+}
+
+function meter(){
+  let m=document.getElementById("meter");
+  let v=0;
+  let i=setInterval(()=>{
+    v+=5;
+    m.innerText="Love meter: "+v+"% 💗";
+    if(v>=100)clearInterval(i);
+  },80);
+}
+
+function openEnv(i){
+  if(opened[i-1])return;
+  opened[i-1]=true;
+  let text=[
+    "galat wala choose kr liya 😭",
+    "this is wrong one 😭",
+    "haha not this one 😂"
+  ];
+  document.getElementById("envText").innerText=text[i-1];
+
+  if(opened.every(x=>x)){
+    setTimeout(()=>next(4),1000);
+  }
+}
+
+function finalEnv(){
+  document.getElementById("finalText").innerHTML=
+  "i love you so much baby, i am so happy for us, its been 5 years and we still the same, i want you to be my valentine every year baby. you are the cutest, hottest girl fr everything i do for you is less, bby, you deserve the world baby my queen 💖💖<br><br>with love priyanshu";
+}
+
+function hearts(){
+  setInterval(()=>{
+    let h=document.createElement("div");
+    h.className="heart";
+    h.style.left=Math.random()*100+"%";
+    h.innerText="💖";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),4000);
+  },200);
+}
+</script>
+
+</body>
+</html>
